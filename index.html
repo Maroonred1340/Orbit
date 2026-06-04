@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orbit - Click the Square Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Orbit</h1>
+        <p class="instructions">Click the square when it enters the green zone (50%-85% of the track)</p>
+        
+        <div class="game-area">
+            <div class="track">
+                <div id="movingSquare" class="moving-square"></div>
+            </div>
+            
+            <div id="resultArea" class="result-area" style="display: none;">
+                <div id="resultMessage" class="result-message"></div>
+                <p>Game restarting in: <span id="timer">20</span>s</p>
+                <button id="restartBtn" class="restart-btn" style="display: none;">Restart Now</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
