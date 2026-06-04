@@ -6,6 +6,7 @@ const timer = document.getElementById('timer');
 
 let isGameActive = true;
 let gameStarted = false;
+let gameCompleted = false; // 한 번만 플레이 가능하게 하는 플래그
 let position = 0;
 let isInTargetZone = false;
 
@@ -18,6 +19,9 @@ const RESULT_DELAY = 10000; // 결과 표시 전 10초 대기
 
 // 게임 시작
 function startGame() {
+    // 게임이 이미 완료되었으면 시작하지 않음
+    if (gameCompleted) return;
+    
     position = 0;
     isGameActive = true;
     gameStarted = true;
@@ -81,7 +85,7 @@ function animate() {
 
 // 네모 클릭 이벤트
 movingSquare.addEventListener('click', (e) => {
-    if (!isGameActive) return;
+    if (!isGameActive || gameCompleted) return;
     
     e.stopPropagation();
     movingSquare.classList.add('clicked');
@@ -96,6 +100,7 @@ movingSquare.addEventListener('click', (e) => {
 // 게임 종료 및 결과 표시
 function endGame(success) {
     isGameActive = false;
+    gameCompleted = true; // 게임 완료 플래그 설정
     
     // 10초 후에 결과 표시
     setTimeout(() => {
@@ -119,14 +124,20 @@ function endGame(success) {
             
             if (countdown <= 0) {
                 clearInterval(countdownInterval);
-                startGame(); // 자동으로 게임 재시작
+                // 게임 재시작 비활성화 - 한 번만 플레이 가능
             }
         }, 1000);
     }, RESULT_DELAY);
 }
 
-// 다시 시작 버튼
-restartBtn.addEventListener('click', startGame);
+// 다시 시작 버튼 (한 번만 플레이 가능하므로 비활성화)
+restartBtn.addEventListener('click', (e) => {
+    if (gameCompleted) {
+        e.preventDefault();
+        return;
+    }
+    startGame();
+});
 
 // 게임 시작
 startGame();
@@ -134,6 +145,9 @@ startGame();
 // 윈도우 리사이즈 시 게임 초기화
 window.addEventListener('resize', () => {
     if (!gameStarted || !isGameActive) {
-        startGame();
+        // 게임이 완료되면 리사이즈 시에도 시작하지 않음
+        if (!gameCompleted) {
+            startGame();
+        }
     }
 });
