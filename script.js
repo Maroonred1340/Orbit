@@ -14,7 +14,7 @@ const TARGET_ZONE_START = 0.6; // 트랙의 60% 지점부터
 const TARGET_ZONE_END = 0.7; // 트랙의 70% 지점까지
 const GAME_DURATION = 5000; // 5초 동안 네모 이동
 const INITIAL_SHOW_DURATION = 200; // 처음 0.2초 보이기
-const RESULT_DELAY = 20000; // 결과 표시 전 20초 대기
+const RESULT_DELAY = 10000; // 결과 표시 전 10초 대기
 
 // 게임 시작
 function startGame() {
@@ -97,7 +97,7 @@ movingSquare.addEventListener('click', (e) => {
 function endGame(success) {
     isGameActive = false;
     
-    // 20초 후에 결과 표시
+    // 10초 후에 결과 표시
     setTimeout(() => {
         resultArea.style.display = 'block';
         
@@ -110,7 +110,7 @@ function endGame(success) {
         }
         
         // 카운트다운
-        let countdown = 20;
+        let countdown = 10;
         timer.textContent = countdown;
         
         const countdownInterval = setInterval(() => {
