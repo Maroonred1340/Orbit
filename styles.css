@@ -1,0 +1,141 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    background: white;
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    max-width: 800px;
+    width: 100%;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 2.5em;
+}
+
+.instructions {
+    text-align: center;
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 1.1em;
+}
+
+.game-area {
+    position: relative;
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.track {
+    width: 100%;
+    height: 100px;
+    background: #f0f0f0;
+    border: 3px solid #333;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.moving-square {
+    width: 60px;
+    height: 60px;
+    background: #2196F3;
+    border-radius: 8px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    transition: box-shadow 0.1s ease;
+    user-select: none;
+}
+
+.moving-square:hover {
+    opacity: 0.9;
+}
+
+.moving-square.clicked {
+    background: #4CAF50;
+    box-shadow: 0 0 20px rgba(76, 175, 80, 0.8) !important;
+}
+
+.result-area {
+    text-align: center;
+    padding: 20px;
+    background: #f5f5f5;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.result-message {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.result-message.success {
+    color: #4CAF50;
+}
+
+.result-message.failure {
+    color: #f44336;
+}
+
+.result-area p {
+    color: #666;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+}
+
+.restart-btn {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    font-size: 1em;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.restart-btn:hover {
+    background: #764ba2;
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+    }
+    
+    h1 {
+        font-size: 2em;
+    }
+    
+    .track {
+        height: 80px;
+    }
+    
+    .moving-square {
+        width: 50px;
+        height: 50px;
+    }
+}
