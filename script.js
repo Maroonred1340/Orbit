@@ -13,7 +13,7 @@ const SPEED = 5; // 네모 이동 속도 (픽셀/프레임)
 const TARGET_ZONE_START = 0.6; // 트랙의 60% 지점부터
 const TARGET_ZONE_END = 0.7; // 트랙의 70% 지점까지
 const GAME_DURATION = 5000; // 5초 동안 네모 이동
-const INITIAL_HIDE_DURATION = 200; // 처음 0.2초 숨기기
+const INITIAL_SHOW_DURATION = 200; // 처음 0.2초 보이기
 const RESULT_DELAY = 20000; // 결과 표시 전 20초 대기
 
 // 게임 시작
@@ -24,16 +24,16 @@ function startGame() {
     resultArea.style.display = 'none';
     restartBtn.style.display = 'none';
     movingSquare.classList.remove('clicked');
-    movingSquare.style.opacity = '0'; // 처음에 투명하게
+    movingSquare.style.opacity = '1'; // 처음에 보이게
     
     animate();
     
-    // 0.2초 후 큐브 보이게
+    // 0.2초 후 큐브 투명하게
     setTimeout(() => {
         if (isGameActive) {
-            movingSquare.style.opacity = '1';
+            movingSquare.style.opacity = '0';
         }
-    }, INITIAL_HIDE_DURATION);
+    }, INITIAL_SHOW_DURATION);
     
     // 5초 후 자동으로 게임 종료 (클릭하지 않으면 실패)
     setTimeout(() => {
