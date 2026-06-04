@@ -105,6 +105,7 @@ function endGame(success) {
     // 10초 후에 결과 표시
     setTimeout(() => {
         resultArea.style.display = 'block';
+        restartBtn.style.display = 'block'; // 버튼 표시
         
         if (success) {
             resultMessage.textContent = '✓ 성공!';
@@ -124,19 +125,22 @@ function endGame(success) {
             
             if (countdown <= 0) {
                 clearInterval(countdownInterval);
-                // 게임 재시작 비활성화 - 한 번만 플레이 가능
             }
         }, 1000);
     }, RESULT_DELAY);
 }
 
-// 다시 시작 버튼 (한 번만 플레이 가능하므로 비활성화)
+// 다시 시작 버튼 - 한 번만 누를 수 있음
+let restartClicked = false;
 restartBtn.addEventListener('click', (e) => {
-    if (gameCompleted) {
+    if (restartClicked || gameCompleted) {
         e.preventDefault();
         return;
     }
-    startGame();
+    restartClicked = true;
+    restartBtn.disabled = true; // 버튼 비활성화
+    restartBtn.style.opacity = '0.5'; // 회색으로 표시
+    restartBtn.style.cursor = 'not-allowed';
 });
 
 // 게임 시작
