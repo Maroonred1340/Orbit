@@ -114,11 +114,16 @@ h1 {
     font-size: 1em;
     border-radius: 8px;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: background 0.3s ease, opacity 0.3s ease;
 }
 
-.restart-btn:hover {
+.restart-btn:hover:not(:disabled) {
     background: #764ba2;
+}
+
+.restart-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 @media (max-width: 600px) {
