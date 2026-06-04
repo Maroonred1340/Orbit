@@ -7,8 +7,12 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- 우주 별 배경 -->
+    <div class="stars"></div>
+    <div class="shooting-star"></div>
+    
     <div class="container">
-        <h1>Orbit</h1>
+        <h1>🌌 Orbit</h1>
         <p class="instructions">Click the square when it enters the green zone (50%-85% of the track)</p>
         
         <div class="game-area">
@@ -19,8 +23,16 @@
             <div id="resultArea" class="result-area" style="display: none;">
                 <div id="resultMessage" class="result-message"></div>
                 <p>Game restarting in: <span id="timer">10</span>s</p>
-                <button id="restartBtn" class="restart-btn">Restart Now</button>
+                <button id="restartBtn" class="restart-btn" title="Click once to restart">Restart Now 🚀</button>
             </div>
+        </div>
+        
+        <!-- 우주 데코레이션 -->
+        <div class="space-decoration">
+            <div class="planet planet-1">🪐</div>
+            <div class="planet planet-2">🌍</div>
+            <div class="planet planet-3">🌙</div>
+            <div class="comet">☄️</div>
         </div>
     </div>
     
