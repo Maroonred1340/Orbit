@@ -7,6 +7,7 @@ const timer = document.getElementById('timer');
 let isGameActive = true;
 let gameStarted = false;
 let gameCompleted = false; // 한 번만 플레이 가능하게 하는 플래그
+let restartBtnClicked = false; // 버튼을 한 번만 누르게 하는 플래그
 let position = 0;
 let isInTargetZone = false;
 
@@ -131,16 +132,21 @@ function endGame(success) {
 }
 
 // 다시 시작 버튼 - 한 번만 누를 수 있음
-let restartClicked = false;
 restartBtn.addEventListener('click', (e) => {
-    if (restartClicked || gameCompleted) {
+    // 이미 클릭했거나 게임이 완료되었으면 무시
+    if (restartBtnClicked || gameCompleted) {
         e.preventDefault();
         return;
     }
-    restartClicked = true;
+    
+    // 첫 번째 클릭 처리
+    restartBtnClicked = true;
     restartBtn.disabled = true; // 버튼 비활성화
     restartBtn.style.opacity = '0.5'; // 회색으로 표시
     restartBtn.style.cursor = 'not-allowed';
+    
+    // 클릭 효과 제거
+    e.preventDefault();
 });
 
 // 게임 시작
