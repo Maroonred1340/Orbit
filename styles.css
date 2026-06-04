@@ -6,26 +6,95 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #1a0033 0%, #0d0221 50%, #1a0033 100%);
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 별 배경 */
+.stars {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.stars::before {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    box-shadow: 
+        100px 50px 0 white, 200px 120px 0 rgba(255, 255, 255, 0.8),
+        300px 80px 0 rgba(255, 255, 255, 0.6), 400px 200px 0 white,
+        500px 100px 0 rgba(255, 255, 255, 0.7), 600px 150px 0 rgba(255, 255, 255, 0.5),
+        150px 300px 0 white, 250px 350px 0 rgba(255, 255, 255, 0.8),
+        350px 250px 0 rgba(255, 255, 255, 0.6), 450px 380px 0 white,
+        550px 280px 0 rgba(255, 255, 255, 0.7), 650px 320px 0 rgba(255, 255, 255, 0.5),
+        800px 100px 0 white, 900px 200px 0 rgba(255, 255, 255, 0.8),
+        1000px 150px 0 rgba(255, 255, 255, 0.6), 1100px 250px 0 white,
+        1200px 180px 0 rgba(255, 255, 255, 0.7), 1300px 220px 0 rgba(255, 255, 255, 0.5);
+    animation: twinkle 3s infinite;
+}
+
+/* 유성 애니메이션 */
+.shooting-star {
+    position: fixed;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 10px 1px rgba(255, 255, 255, 0.8);
+    animation: shoot 3s infinite;
+    z-index: 1;
+    pointer-events: none;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}
+
+@keyframes shoot {
+    0% {
+        top: 10%;
+        left: 10%;
+        opacity: 1;
+    }
+    100% {
+        top: 50%;
+        left: 80%;
+        opacity: 0;
+    }
 }
 
 .container {
-    background: white;
-    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
     padding: 40px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(102, 126, 234, 0.3);
     max-width: 800px;
     width: 100%;
+    position: relative;
+    z-index: 10;
+    border: 2px solid rgba(102, 126, 234, 0.2);
 }
 
 h1 {
     text-align: center;
-    color: #333;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     margin-bottom: 10px;
     font-size: 2.5em;
 }
@@ -48,18 +117,19 @@ h1 {
 .track {
     width: 100%;
     height: 100px;
-    background: #f0f0f0;
-    border: 3px solid #333;
+    background: linear-gradient(to right, #f0f0f0, #e8e8e8);
+    border: 3px solid #667eea;
     border-radius: 10px;
     position: relative;
     overflow: hidden;
     margin-bottom: 20px;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .moving-square {
     width: 60px;
     height: 60px;
-    background: #2196F3;
+    background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
     border-radius: 8px;
     position: absolute;
     top: 50%;
@@ -67,23 +137,32 @@ h1 {
     cursor: pointer;
     transition: box-shadow 0.1s ease;
     user-select: none;
+    box-shadow: 0 4px 8px rgba(33, 150, 243, 0.3);
 }
 
 .moving-square:hover {
     opacity: 0.9;
+    box-shadow: 0 6px 12px rgba(33, 150, 243, 0.5);
 }
 
 .moving-square.clicked {
-    background: #4CAF50;
-    box-shadow: 0 0 20px rgba(76, 175, 80, 0.8) !important;
+    background: linear-gradient(135deg, #4CAF50 0%, #388E3C 100%);
+    box-shadow: 0 0 25px rgba(76, 175, 80, 0.9) !important;
+    animation: pulse 0.5s ease;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: translateY(-50%) scale(1); }
+    50% { transform: translateY(-50%) scale(1.1); }
 }
 
 .result-area {
     text-align: center;
     padding: 20px;
-    background: #f5f5f5;
+    background: linear-gradient(135deg, #f5f5f5 0%, #eeeeee 100%);
     border-radius: 10px;
     margin-top: 20px;
+    border: 2px solid #e0e0e0;
 }
 
 .result-message {
@@ -94,10 +173,23 @@ h1 {
 
 .result-message.success {
     color: #4CAF50;
+    animation: successBounce 0.6s ease;
 }
 
 .result-message.failure {
     color: #f44336;
+    animation: shake 0.5s ease;
+}
+
+@keyframes successBounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
 }
 
 .result-area p {
@@ -107,23 +199,108 @@ h1 {
 }
 
 .restart-btn {
-    background: #667eea;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     border: none;
     padding: 12px 30px;
     font-size: 1em;
+    font-weight: 600;
     border-radius: 8px;
     cursor: pointer;
-    transition: background 0.3s ease, opacity 0.3s ease;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
 }
 
 .restart-btn:hover:not(:disabled) {
-    background: #764ba2;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.restart-btn:active:not(:disabled) {
+    transform: translateY(0);
 }
 
 .restart-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+}
+
+/* 우주 데코레이션 */
+.space-decoration {
+    position: relative;
+    margin-top: 30px;
+    height: 80px;
+    perspective: 1000px;
+}
+
+.planet {
+    position: absolute;
+    font-size: 2em;
+    animation: float 6s ease-in-out infinite;
+}
+
+.planet-1 {
+    top: 10px;
+    left: 20px;
+    animation: float 6s ease-in-out infinite, orbit1 20s linear infinite;
+}
+
+.planet-2 {
+    top: 20px;
+    right: 40px;
+    animation: float 8s ease-in-out infinite, orbit2 15s linear infinite reverse;
+}
+
+.planet-3 {
+    bottom: 0;
+    left: 50%;
+    animation: float 7s ease-in-out infinite, orbit3 18s linear infinite;
+}
+
+.comet {
+    position: absolute;
+    font-size: 1.5em;
+    right: -50px;
+    top: 30px;
+    animation: cometFly 4s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes orbit1 {
+    0% { transform: rotate(0deg) translateX(30px) rotate(-0deg); }
+    100% { transform: rotate(360deg) translateX(30px) rotate(-360deg); }
+}
+
+@keyframes orbit2 {
+    0% { transform: rotate(0deg) translateX(-30px) rotate(-0deg); }
+    100% { transform: rotate(-360deg) translateX(-30px) rotate(360deg); }
+}
+
+@keyframes orbit3 {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(30px); }
+    100% { transform: translateX(0); }
+}
+
+@keyframes cometFly {
+    0% {
+        right: -50px;
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        right: calc(100% + 50px);
+        opacity: 0;
+    }
 }
 
 @media (max-width: 600px) {
@@ -142,5 +319,18 @@ h1 {
     .moving-square {
         width: 50px;
         height: 50px;
+    }
+    
+    .space-decoration {
+        margin-top: 20px;
+        height: 60px;
+    }
+    
+    .planet {
+        font-size: 1.5em;
+    }
+    
+    .comet {
+        font-size: 1.2em;
     }
 }
