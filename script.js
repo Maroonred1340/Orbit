@@ -10,9 +10,11 @@ let position = 0;
 let isInTargetZone = false;
 
 const SPEED = 5; // 네모 이동 속도 (픽셀/프레임)
-const TARGET_ZONE_START = window.innerWidth * 0.6; // 대략 화면의 60% 지점부터
-const TARGET_ZONE_END = window.innerWidth * 0.85; // 화면의 85% 지점까지
+const TARGET_ZONE_START = 0.6; // 트랙의 60% 지점부터
+const TARGET_ZONE_END = 0.7; // 트랙의 70% 지점까지
 const GAME_DURATION = 5000; // 5초 동안 네모 이동
+const INITIAL_HIDE_DURATION = 200; // 처음 0.2초 숨기기
+const RESULT_DELAY = 20000; // 결과 표시 전 20초 대기
 
 // 게임 시작
 function startGame() {
@@ -22,12 +24,21 @@ function startGame() {
     resultArea.style.display = 'none';
     restartBtn.style.display = 'none';
     movingSquare.classList.remove('clicked');
+    movingSquare.style.opacity = '0'; // 처음에 투명하게
     
     animate();
+    
+    // 0.2초 후 큐브 보이게
+    setTimeout(() => {
+        if (isGameActive) {
+            movingSquare.style.opacity = '1';
+        }
+    }, INITIAL_HIDE_DURATION);
     
     // 5초 후 자동으로 게임 종료 (클릭하지 않으면 실패)
     setTimeout(() => {
         if (isGameActive) {
+            isGameActive = false;
             endGame(false);
         }
     }, GAME_DURATION);
@@ -53,11 +64,11 @@ function animate() {
     
     movingSquare.style.left = position + 'px';
     
-    // 목표 영역 체크 (화면 좌표 기준이 아닌 트랙 내 상대적 위치)
-    const targetZonePixels = trackWidth * 0.5; // 트랙의 50% 지점부터
-    const targetZonePixelsEnd = trackWidth * 0.85; // 85% 지점까지
+    // 목표 영역 체크 (트랙 내 상대적 위치 기반)
+    const targetZoneStart = trackWidth * TARGET_ZONE_START; // 트랙의 60%
+    const targetZoneEnd = trackWidth * TARGET_ZONE_END; // 트랙의 70%
     
-    if (position >= targetZonePixels && position <= targetZonePixelsEnd) {
+    if (position >= targetZoneStart && position <= targetZoneEnd) {
         isInTargetZone = true;
         movingSquare.style.boxShadow = '0 0 20px rgba(76, 175, 80, 0.8)';
     } else {
@@ -86,29 +97,32 @@ movingSquare.addEventListener('click', (e) => {
 function endGame(success) {
     isGameActive = false;
     
-    resultArea.style.display = 'block';
-    
-    if (success) {
-        resultMessage.textContent = '✓ 성공!';
-        resultMessage.className = 'result-message success';
-    } else {
-        resultMessage.textContent = '✗ 실패!';
-        resultMessage.className = 'result-message failure';
-    }
-    
-    // 20초 카운트다운
-    let countdown = 20;
-    timer.textContent = countdown;
-    
-    const countdownInterval = setInterval(() => {
-        countdown--;
+    // 20초 후에 결과 표시
+    setTimeout(() => {
+        resultArea.style.display = 'block';
+        
+        if (success) {
+            resultMessage.textContent = '✓ 성공!';
+            resultMessage.className = 'result-message success';
+        } else {
+            resultMessage.textContent = '✗ 실패!';
+            resultMessage.className = 'result-message failure';
+        }
+        
+        // 카운트다운
+        let countdown = 20;
         timer.textContent = countdown;
         
-        if (countdown <= 0) {
-            clearInterval(countdownInterval);
-            restartBtn.style.display = 'block';
-        }
-    }, 1000);
+        const countdownInterval = setInterval(() => {
+            countdown--;
+            timer.textContent = countdown;
+            
+            if (countdown <= 0) {
+                clearInterval(countdownInterval);
+                startGame(); // 자동으로 게임 재시작
+            }
+        }, 1000);
+    }, RESULT_DELAY);
 }
 
 // 다시 시작 버튼
